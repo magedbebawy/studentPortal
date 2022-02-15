@@ -1,0 +1,8 @@
+{
+    "app": {
+        "port": 3000
+    },
+    "db": {
+        "url": "mongodb+srv://maged:maged@cluster.rtbbv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    }
+}
