@@ -1,22 +1,29 @@
 const express = require('express');
 const router = express.Router();
+const studentController = require('../controller/StudentController');
+
+router.post('/', (req, res) => {
+    studentController.createStudent(req, res);
+});
 
 router.get('/', (req, res) => {
-    try {
-        let output = [
-            {
-                name: "maged",
-                email: "mbebawy@yahoo.com"
-            },
-            {
-                name: "mark",
-                email: "mark@yahoo.com"
-            }
-        ];
-        res.status(200).json(output);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+    studentController.getStudent(req, res);
 });
+
+router.get('/allstudents', (req, res) => {
+    studentController.getAllStudents(req, res);
+});
+
+router.delete('/delete', (req, res) => {
+    studentController.deleteStudent(req, res);
+});
+
+router.delete('/deleteall', (req, res) => {
+    studentController.deleteAllStudents(req, res);
+});
+
+router.put('/:id', (req, res) => {
+    studentController.editStudent(req, res);
+})
 
 module.exports = router;
