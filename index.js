@@ -12,6 +12,7 @@ connectToDB();
 // Use routes
 app.use('/student', require('./routes/students'));
 app.use('/grades', require('./routes/grades'));
+app.use('/professor', require('./routes/professors'));
 
 app.get('/', (req, res) => {
     res.status(200).send("Welcome to student portal");

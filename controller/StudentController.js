@@ -14,6 +14,7 @@ module.exports = {
                 const { name, email } = req.body;
                 // Create a new student object
                 const newStudent = new Student({
+                    professor: req.user.id,
                     name,
                     email
                 });
@@ -21,10 +22,10 @@ module.exports = {
                 // Save student to DB
                 let students = await Student.find({email: email});
                 if(students.length > 0){
-                    res.status(400).json({"msg":"Email already in use"}); 
+                    res.status(400).json({"msg":"Email already in use"});
                 }else{
                     output.message = "New student created successfully";
-                    output.student = await newStudent.save();
+                    await newStudent.save();
                     res.status(200).json(output);
                 }
                 
@@ -47,7 +48,7 @@ module.exports = {
             }else{
                 // Find student
                 const { email } = req.body;
-                output.student = await Student.findOne({email: email});
+                output.student = await Student.findOne({email: email, professor: req.user.id});
                 res.status(200).json(output);
             }
             
@@ -62,7 +63,7 @@ module.exports = {
         try {
             let output = {};
             // Get all students
-            output.students = await Student.find();
+            output.students = await Student.find({professor: req.user.id});
             res.status(200).json(output);
         } catch (error) {
             console.log(error);
@@ -74,7 +75,7 @@ module.exports = {
         try {
             let output = {};
             const { student_id } = req.params;
-            const student = await Student.deleteOne({_id: student_id});
+            const student = await Student.deleteOne({_id: student_id, professor: req.user.id});
             if(student.deletedCount == 1){
                 output.message = "Student deleted successfully"
                 res.status(200).json(output);
@@ -90,7 +91,7 @@ module.exports = {
     deleteAllStudents: async (req, res) => {
         try {
             let output = {};
-            const student = await Student.deleteMany();
+            const student = await Student.deleteMany({professor: req.user.id});
             if(student.deletedCount > 0){
                 output.message = "Successfully deleted " + student.deletedCount;
                 res.status(200).json(output);
@@ -122,6 +123,7 @@ module.exports = {
             // Find student and update
             output.student = await Student.findByIdAndUpdate(req.params.id,
                 {$set: updatedFields}, {new: true});
+            output.message = "Student updated successfully";
             res.status(200).json(output);
         } catch (error) {
             console.log(error);

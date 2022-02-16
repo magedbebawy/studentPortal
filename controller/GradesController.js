@@ -32,11 +32,7 @@ module.exports = {
 
                     // Save grade to DB
                     const savedGrade = await newGrade.save();
-                    output = {
-                        message: "Grade created successfully",
-                        grade: savedGrade
-                    }
-
+                    output.message = "Grade created successfully",
                     res.status(200).json(output);
                 }
             }
