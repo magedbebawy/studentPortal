@@ -1,22 +1,29 @@
 const express = require('express');
 const router = express.Router();
+const gradeController = require('../controller/GradesController');
 
-router.get('/', (req, res) => {
-    try {
-        let output = [
-            {
-                assignment: "test 1",
-                grade: 95
-            },
-            {
-                assignment: "quiz 1",
-                grade: 9
-            }
-        ];
-        res.status(200).json(output);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+router.post('/:student_id', (req, res) => {
+    gradeController.createGrade(req, res);
+});
+
+router.get('/:student_id/:grade_id', (req, res) => {
+    gradeController.getGrade(req, res);
+});
+
+router.get('/grades/allGrades/:student_id', (req, res) => {
+    gradeController.getAllGrades(req, res);
+});
+
+router.delete('/delete/:grade_id', (req, res) => {
+    gradeController.deleteGrade(req, res);
+});
+
+router.delete('/deleteall/:student_id', (req, res) => {
+    gradeController.deleteAllGrades(req, res);
+});
+
+router.put('/:grade_id', (req, res) => {
+    gradeController.editGrade(req, res);
 });
 
 module.exports = router;

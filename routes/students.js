@@ -24,6 +24,6 @@ router.delete('/deleteall', (req, res) => {
 
 router.put('/:id', (req, res) => {
     studentController.editStudent(req, res);
-})
+});
 
 module.exports = router;
