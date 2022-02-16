@@ -73,21 +73,14 @@ module.exports = {
     deleteStudent: async (req, res) => {
         try {
             let output = {};
-            const validated = valideStudent.validateEmail(req.body);
-            if(validated != null){
-                res.status(400).json(validated);
+            const { student_id } = req.params;
+            const student = await Student.deleteOne({_id: student_id});
+            if(student.deletedCount == 1){
+                output.message = "Student deleted successfully"
+                res.status(200).json(output);
             }else{
-                const { email } = req.body;
-                const student = await Student.deleteOne({email: email});
-                if(student.deletedCount == 1){
-                    output.message = "Student deleted successfully"
-                    res.status(200).json(output);
-                }else{
-                    res.status(500).json("Error deleting student");
-                }
-                
+                res.status(500).json("Error deleting student");
             }
-            
         } catch (error) {
             console.log(error);
             res.status(500).json("Error deleting student");

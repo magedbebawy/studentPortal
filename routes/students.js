@@ -14,7 +14,7 @@ router.get('/allstudents', (req, res) => {
     studentController.getAllStudents(req, res);
 });
 
-router.delete('/delete', (req, res) => {
+router.delete('/delete/:student_id', (req, res) => {
     studentController.deleteStudent(req, res);
 });
 
